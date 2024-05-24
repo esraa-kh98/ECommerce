@@ -1,0 +1,22 @@
+﻿@model IEnumerable<Product>
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<div class="row">
+    @foreach(var item in Model)
+    {
+    <div class="col-md-3">
+         <div class="card">
+             <img src="./image/@item.ImageUrl" alt="@item.Pame" style="width:90%;height:300px">
+             <h1>@item.Pame</h1>
+             <p>@item.Price.ToString("c")</p>
+             <p>@item.Description</p>
+             <p style="color:@item.ProductColor">@item.ProductColor</p>
+             <p>@item.Category.Name</p>
+             <button >Add To Cart</button>
+         </div>
+    </div>
+    }
+</div>

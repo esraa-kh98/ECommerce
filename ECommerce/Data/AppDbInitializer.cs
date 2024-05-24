@@ -45,7 +45,7 @@ namespace ECommerce.Data
                             Description="P1",
                             Price=100,
                             ProductColor=ProductColor.Green,
-                            ImageUrl="http...",
+                            ImageUrl="http..",
                             CategoryId=1,
                         },
                         new Product()
