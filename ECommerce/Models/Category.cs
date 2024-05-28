@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using ECommerce.Data.Base;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace ECommerce.Models
 {
-    public class Category
+    public class Category :IBaseEntity
     {
         public Category()
             {

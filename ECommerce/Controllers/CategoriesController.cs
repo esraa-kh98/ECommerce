@@ -56,40 +56,39 @@ namespace ECommerce.Controllers
             return View("NotFound");
         }
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description")] Category category)
-        {
-            if (id != category.Id)
-            {
-                return View("NotFound");
-            }
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description")] Category category)
+        //{
+        //    if (id != category.Id)
+        //    {
+        //        return View("NotFound");
+        //    }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    await _services.UpdateAsync(category);
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    // Handle exceptionq
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(category);
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            await _services.UpdateAsync(category);
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            // Handle exceptionq
+        //        }
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(category);
         
 
-            /* public async Task<IActionResult> Edit(Category category)
+            public async Task<IActionResult> Edit(Category category)
              {
-                 var categoryId = await _services.GetByIdAsync(category.Id);
-                 if (!ModelState.IsValid && categoryId==null) 
+                 if (!ModelState.IsValid) 
                  {
                      return View("NotFound");
                  }
                  await _services.UpdateAsync(category);
                  return RedirectToAction(nameof(Index));
-             }*/
-        }
+             }
+        
         public async Task<IActionResult> Delete(int id)
         {
             await _services.DeleteAsync(id);

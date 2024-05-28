@@ -23,9 +23,10 @@
                         <td>
                             <a class="btn btn-outline-info" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-regular fa-pencil mr-2"></i>Edit</a>
                             <a class="btn btn-outline-secondary" asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-regular fa-eye mr-2"></i>Details</a>
-                            <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.Id">
+                            <a  asp-action="Delete" asp-route-id="@item.Id">
                                @* <i class="fas fa-regular fa-trash mr-2" onclick="return confirm('Are You Sure Want To Delete This Category?')"></i>Delete*@
-                               <input type="submit" value="Delete" onclick="return confirm('Are You Sure Want To Delete This Category?')"/>
+                               <input type="submit" value="Delete" class="btn btn-outline-danger"
+                               onclick="return confirm('Are You Sure Want To Delete This Category?')"/>
                                </a>
                         </td>
                        </tr>
