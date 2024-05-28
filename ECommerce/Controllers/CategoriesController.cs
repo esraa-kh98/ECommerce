@@ -1,20 +1,99 @@
 ﻿using ECommerce.Data;
+using ECommerce.Data.Services;
+using ECommerce.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ECommerce.Controllers
 {
     public class CategoriesController : Controller
     {
-        private readonly EcommerceDbContext _context;
-        public CategoriesController(EcommerceDbContext context)
+        private readonly ICategoryServices _services;
+        public CategoriesController(ICategoryServices services)
         {
-            _context = context;
+            _services = services;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var Response = _context.Categories.ToList();
+            var Response = await _services.GetAllAsync();
             return View(Response);
         }
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Create([Bind("Name,Description")] Category category)
+        {
+            if (ModelState.IsValid)
+            {
+                await _services.CreateAsync(category);
+                return RedirectToAction(nameof(Index));
+            }
+            return View(category);
+        }
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            var category = await _services.GetByIdAsync(id);
+            if (category != null)
+            {
+                return View(category);
+            }
+            return View("NotFound");
+        }
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var category = await _services.GetByIdAsync(id);
+            if (category != null)
+            {
+                return View(category);
+            }
+            return View("NotFound");
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description")] Category category)
+        {
+            if (id != category.Id)
+            {
+                return View("NotFound");
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _services.UpdateAsync(category);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    // Handle exceptionq
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(category);
+        
+
+            /* public async Task<IActionResult> Edit(Category category)
+             {
+                 var categoryId = await _services.GetByIdAsync(category.Id);
+                 if (!ModelState.IsValid && categoryId==null) 
+                 {
+                     return View("NotFound");
+                 }
+                 await _services.UpdateAsync(category);
+                 return RedirectToAction(nameof(Index));
+             }*/
+        }
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _services.DeleteAsync(id);
+            return RedirectToAction(nameof(Index));
+        }
+        }
     }
-}

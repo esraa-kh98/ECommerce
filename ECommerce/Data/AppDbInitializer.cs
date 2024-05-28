@@ -1,4 +1,5 @@
-﻿using ECommerce.Models;
+﻿using ECommerce.Enums.Data;
+using ECommerce.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
@@ -45,7 +46,7 @@ namespace ECommerce.Data
                             Description="P1",
                             Price=100,
                             ProductColor=ProductColor.Green,
-                            ImageUrl="http..",
+                            ImageUrl="image/images.jpg",
                             CategoryId=1,
                         },
                         new Product()
@@ -54,7 +55,7 @@ namespace ECommerce.Data
                             Description="P2",
                             Price=200,
                             ProductColor=ProductColor.Red,
-                            ImageUrl="http...",
+                            ImageUrl="image/imagestwo.jpg",
                             CategoryId=2,
                         },
                     };
