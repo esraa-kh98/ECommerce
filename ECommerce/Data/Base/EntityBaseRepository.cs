@@ -1,6 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace ECommerce.Data.Base
@@ -35,9 +38,23 @@ namespace ECommerce.Data.Base
             return await _entities.ToListAsync();
         }
 
+        public async Task<IEnumerable<T>> GetAllAsync(params Expression<Func<T, object>>[] include)
+        {
+            IQueryable<T> query = _entities.AsQueryable();
+            query = include.Aggregate(query, (current, include) => current.Include(include));
+            return await query.ToListAsync();
+        }
+
         public async Task<T> GetByIdAsync(int id)
         {
             return await _entities.FirstOrDefaultAsync(x=>x.Id==id);
+        }
+
+        public async Task<T> GetByIdAsync(int id,params Expression<Func<T, object>>[] include)
+        {
+            IQueryable<T> query = _entities.AsQueryable();
+            query = include.Aggregate(query, (current, include) => current.Include(include));
+            return await query.FirstOrDefaultAsync(x=>x.Id==id);
         }
 
         public async Task SaveChanges()

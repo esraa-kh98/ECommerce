@@ -9,7 +9,17 @@
     {
     <div class="col-md-3">
          <div class="card">
-             <img src="./image/@item.ImageUrl" alt="@item.Pame" style="width:90%;height:300px">
+             <a asp-action="Edit" asp-controller="Products" asp-route-id="@item.Id">
+                 <i class="fas fa-regular fa-pencil"></i>
+             </a>
+             <a  asp-action="Delete" asp-route-id="@item.Id">
+                     <input type="submit" value="Delete" class="btn btn-outline-danger"
+                     onclick="return confirm('Are You Sure Want To Delete This Product?')"/>
+                   </a>
+
+             <a asp-action="Details" asp-route-id="@item.Id">
+             <img src="@item.ImageUrl" alt="@item.Pame" style="width:90%;height:300px">
+             </a>
              <h1>@item.Pame</h1>
              <p>@item.Price.ToString("c")</p>
              <p>@item.Description</p>
@@ -20,3 +30,5 @@
     </div>
     }
 </div>
+
+@await Html.PartialAsync("_CreateItem","Products")

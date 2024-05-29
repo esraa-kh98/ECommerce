@@ -7,6 +7,5 @@ namespace ECommerce.Data.Services
 {
     public interface ICategoryServices: IEntityBaseRepository<Category>
     {
-       
     }
 }

@@ -1,0 +1,21 @@
+﻿@model Product
+
+@{
+    ViewData["Title"] = $"Details of Product {Model.Pame}";
+}
+
+<div class="row">
+    <div class="col-md-8 offset-2">
+         <div class="card">
+             <img src="@Model.ImageUrl" alt="@Model.Pame" style="width:90%;height:300px">
+             <h1>@Model.Pame</h1>
+             <p>@Model.Price.ToString("c")</p>
+             <p>@Model.Description</p>
+             <p style="color:@Model.ProductColor">@Model.ProductColor</p>
+             <p>@Model.Category.Name</p>
+             <button class="btn btn-success">
+                 <i class="fas fa-regular fa-shopping-basket mr-2"></i>
+                 Add To Cart</button>
+    </div>
+
+</div>

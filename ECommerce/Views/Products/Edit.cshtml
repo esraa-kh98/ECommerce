@@ -1,0 +1,70 @@
+﻿@using ECommerce.Enums.Data
+@model Product
+
+@{
+    ViewData["Title"] = "Edit";
+    var Category = new SelectList(ViewBag.CategoryId, "Id", "Name");
+
+}
+
+<div class="row">
+    <div class="col-md-8 offset-2">
+        <p>
+            <h1 class="text-center">Edit @Model.Pame Product</h1>
+        </p>
+    </div>
+    <div class="col-md-8 offset-2">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+           <div class="form-group">
+               <label >Name</label>
+               <input asp-for="Pame" class="form-control" autocomplete="off"/>
+               <span asp-validation-for="Pame" class="text-danger"></span>
+           </div>
+           <div class="form-group">
+               <label asp-for="Description" class="controle-lable"></label>
+               <textarea asp-for="Description" class="form-control" rows=3></textarea>
+               <span asp-validation-for="Description" class="text-danger"></span>
+           </div>
+           <div class="form-group">
+               <label asp-for="Price" class="controle-lable"></label>
+               <input asp-for="Price" class="form-control" autocomplete="off"/>
+               <span asp-validation-for="Price" class="text-danger"></span>
+           </div>
+           <div class="form-group">
+               <label asp-for="ImageUrl" class="controle-lable"></label>
+               <input asp-for="ImageUrl" class="form-control" autocomplete="off"/>
+               <span asp-validation-for="ImageUrl" class="text-danger"></span>
+           </div>
+            <div class="form-group">
+               <label asp-for="ProductColor" class="controle-lable"></label>
+               <select asp-for="ProductColor" asp-items="@Html.GetEnumSelectList<ProductColor>()" class="form-control" ></select>
+               <span asp-validation-for="ProductColor" class="text-danger"></span>
+           </div>
+           <div class="form-group">
+               <label asp-for="Category.Name" class="controle-lable"> </label>
+               <select asp-for="CategoryId" asp-items="@Category" class="form-control" ></select>
+               <span asp-validation-for="CategoryId" class="text-danger"></span>
+           </div>
+           <div class="col-md-4 offset-4 text-center">
+               <img style="width:100%" src="@Model.ImageUrl" alt="@Model.Pame" id="imagePreview" />
+           </div>
+           <div class="form-group " style="padding-top:10px">
+               <input type="submit" value="Edit" class="btn btn-outline-success  float-right" />
+               <a asp-action="Index" class="btn btn-outline-secondary">Show All Category</a>
+           </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts{
+  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+   <script>
+        $("#ImageUrl").on("change",function(){
+            var Result=document.getElementById("imagePreview");
+            Result.src=$(this).val();
+        })
+    </script>
+}
