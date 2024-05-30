@@ -12,9 +12,11 @@ namespace ECommerce.Models
 
         [Required(ErrorMessage = "Name Is Required")]
         [Display(Name = "Product Name")]
-        public string Pame { set; get; }
+        public string Name { set; get; }
+
         [Required(ErrorMessage = "Description Is Required")]
         public string Description { set; get; }
+
         [Required(ErrorMessage = "Price Is Required")]
         public double Price { set; get; }
         public string ImageUrl { set; get; }

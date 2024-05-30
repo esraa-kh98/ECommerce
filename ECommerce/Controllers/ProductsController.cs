@@ -24,7 +24,7 @@ namespace ECommerce.Controllers
             var Response = await _services.GetAllAsync(x => x.Category);
             if (!string.IsNullOrEmpty(SearchTerm))
             {
-                Response = Response.Where(x => x.Pame.Contains(SearchTerm)).ToList();
+                Response = Response.Where(x => x.Name.Contains(SearchTerm)).ToList();
             }
             return View(Response);
         }

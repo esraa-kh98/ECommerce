@@ -42,7 +42,7 @@ namespace ECommerce.Data
                     {
                         new Product()
                         {
-                            Pame="P1",
+                            Name="P1",
                             Description="P1",
                             Price=100,
                             ProductColor=ProductColor.Green,
@@ -51,7 +51,7 @@ namespace ECommerce.Data
                         },
                         new Product()
                         {
-                            Pame="P2",
+                            Name="P2",
                             Description="P2",
                             Price=200,
                             ProductColor=ProductColor.Red,

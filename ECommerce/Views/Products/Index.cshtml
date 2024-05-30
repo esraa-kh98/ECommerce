@@ -18,14 +18,14 @@
                    </a>
 
              <a asp-action="Details" asp-route-id="@item.Id">
-             <img src="@item.ImageUrl" alt="@item.Pame" style="width:90%;height:300px">
+             <img src="@item.ImageUrl" alt="@item.Name" style="width:80%;height:280px">
              </a>
-             <h1>@item.Pame</h1>
+             <h1>@item.Name</h1>
              <p>@item.Price.ToString("c")</p>
              <p>@item.Description</p>
              <p style="color:@item.ProductColor">@item.ProductColor</p>
              <p>@item.Category.Name</p>
-             <button >Add To Cart</button>
+             <a asp-action="AddToCart" asp-controller="Orders" asp-route-id="@item.Id" class="btn btn-success">Add To Cart</a>
          </div>
     </div>
     }

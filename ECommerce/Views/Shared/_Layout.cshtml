@@ -27,11 +27,26 @@
                         </li>
                     </ul>
                    <form class ="custom-control-inline" style="padding-right=20px;" asp-action="Index" asp-controller="Products">
-                    <input name="SearchTerm" type="text" class="form-contol" placeholder="search here..." autocomplete="off/>
+                    <input name="SearchTerm" type="text" class="form-contol" placeholder="search here..." autocomplete="off"/>
                     <button type="submit" class="btn btn-outline-success">
                         <i class="fas fa-regular fa-search"></i>
                         </button>
                    </form>
+                   <ul class="navbar-nav">
+                       @await Component.InvokeAsync("ShoppingCartSummary")
+                   </ul>
+                   <div class="dropdown">
+                       <button type="button" class="btn btn-outline-success dropdown-toggle" id="profile-btn" data-toggle="dropdown">
+                           <i class="fas fa-person"</i>>Hello...
+                       </button>
+                       <div class="dropdown-menu" area-labelledby="profile-btn">
+                               <a class="dropdown-item" asp-controller="Orders" asp-action="Index" >
+                                   <i class="fas fa-regular fa-list-check mr-2"></i>
+                               </a>
+                       </div>
+
+                   </div>
+
                 </div>
             </div>
         </nav>
