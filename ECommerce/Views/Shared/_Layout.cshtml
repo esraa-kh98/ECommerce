@@ -1,12 +1,15 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-    <head>
+<head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - ECommerce</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/site.css"/>
     <link rel="stylesheet" href="~/lib/font-awesome/css/all.css" />
+   
+
+
 </head>
 <body>
     <header>
@@ -18,40 +21,36 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Categories" asp-action="Index">Category</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Index">Product</a>
-                        </li>
-                    </ul>
-                   <form class ="custom-control-inline" style="padding-right=20px;" asp-action="Index" asp-controller="Products">
-                    <input name="SearchTerm" type="text" class="form-contol" placeholder="search here..." autocomplete="off"/>
-                    <button type="submit" class="btn btn-outline-success">
-                        <i class="fas fa-regular fa-search"></i>
+                     <ul class="navbar-nav flex-grow-1">
+                       @if (Context.User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Categories" asp-action="Index">Category</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Index">Product</a>
+                            </li>
+                        }
+                    </ul>  
+                    
+                    <form class="form-inline" style="padding-right30px;" asp-action="Index" asp-controller="Products">
+                        <input name="searchTerm" type="text" class="form-control" placeholder="Shearch here..." autocomplete="off"/>
+                        <button type="submit" class="btn btn-outline-success">
+                            <i class="fas fa-regular fa-search"></i>
                         </button>
-                   </form>
-                   <ul class="navbar-nav">
-                       @await Component.InvokeAsync("ShoppingCartSummary")
-                   </ul>
-                   <div class="dropdown">
-                       <button type="button" class="btn btn-outline-success dropdown-toggle" id="profile-btn" data-toggle="dropdown">
-                           <i class="fas fa-person"</i>>Hello...
-                       </button>
-                       <div class="dropdown-menu" area-labelledby="profile-btn">
-                               <a class="dropdown-item" asp-controller="Orders" asp-action="Index" >
-                                   <i class="fas fa-regular fa-list-check mr-2"></i>
-                               </a>
-                       </div>
-
-                   </div>
-
+                    </form>
+                    <ul class="navbar-nav mr-2">
+                        @await Component.InvokeAsync("ShoppingCartSummary")
+                    </ul>
+                    <partial name="_Identity"/>
                 </div>
             </div>
         </nav>
     </header>
+  @*<div class="container">*@
+ 
     <div class="container-fluid">
+
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

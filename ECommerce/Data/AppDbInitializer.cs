@@ -1,15 +1,18 @@
-﻿using ECommerce.Enums.Data;
+﻿using ECommerce.Data.Static;
+using ECommerce.Enums.Data;
 using ECommerce.Models;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ECommerce.Data
 {
     public class AppDbInitializer
     {
-        public static void seed(IApplicationBuilder builder)
+        public static void Seed(IApplicationBuilder builder)
         {
             using (var applicationservies = builder.ApplicationServices.CreateScope())
             {
@@ -64,5 +67,54 @@ namespace ECommerce.Data
                 }
             }
         }
-    }
+        public static async Task SeedUserAndRolesAsync(IApplicationBuilder builder)
+        {
+            using (var applicationservies = builder.ApplicationServices.CreateScope())
+            {
+                #region Role
+                var roleManger =
+                    applicationservies.ServiceProvider.GetRequiredService<RoleManager
+                    <IdentityRole>>();
+                if(! await roleManger.RoleExistsAsync(UserRoles.Admin))
+                {
+                    await roleManger.CreateAsync(new IdentityRole(UserRoles.Admin));
+                }
+                if(! await roleManger.RoleExistsAsync(UserRoles.User))
+                {
+                    await roleManger.CreateAsync(new IdentityRole(UserRoles.User));
+                }
+                #endregion
+                #region User
+                var userManger =
+                    applicationservies.ServiceProvider.GetRequiredService<UserManager
+                    <ApplicationUser>>();
+                if(await userManger.FindByEmailAsync("admin@admin.com") == null)
+                {
+                    var newAdminUser = new ApplicationUser()
+                    {
+                        Email = "admin@admin.com",
+                        EmailConfirmed = true,
+                        FullName = "Admin User",
+                        UserName = "Admin"
+                    };
+                    await userManger.CreateAsync(newAdminUser, "@Admin123");
+                    await userManger.AddToRoleAsync(newAdminUser, UserRoles.Admin);
+                }
+                if(await userManger.FindByEmailAsync("user@user.com") == null)
+                {
+                    var newOridinalUser = new ApplicationUser()
+                    {
+                        Email="user@user.ccom",
+                        EmailConfirmed=true,
+                        FullName="Oridinal User",
+                        UserName="User"
+                    };
+                    await userManger.CreateAsync(newOridinalUser, "@User123");
+                    await userManger.AddToRoleAsync(newOridinalUser,UserRoles.User);
+                }
+                #endregion
+
+            }
+        }
+    } 
 }

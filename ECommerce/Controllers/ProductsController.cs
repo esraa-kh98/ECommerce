@@ -1,6 +1,8 @@
 ﻿using ECommerce.Data;
 using ECommerce.Data.Services;
+using ECommerce.Data.Static;
 using ECommerce.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -8,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Controllers
 {
+    [Authorize(Roles = UserRoles.Admin)]
     public class ProductsController : Controller
     {
         private readonly IProductServices _services;
@@ -17,6 +20,7 @@ namespace ECommerce.Controllers
             _services = services;
             _categoryServices = categoryServices;
         }
+        [AllowAnonymous]
         public async Task<IActionResult> Index(string SearchTerm)
         {
             //var Response =await _context.Products.Include(x=>x.Category).OrderBy(x=>x.Pame).ToListAsync();
@@ -28,6 +32,7 @@ namespace ECommerce.Controllers
             }
             return View(Response);
         }
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
             var Response = await _services.GetByIdAsync(id, x => x.Category);

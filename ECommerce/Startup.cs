@@ -1,10 +1,13 @@
 using ECommerce.Data;
 using ECommerce.Data.Cart;
 using ECommerce.Data.Services;
+using ECommerce.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -40,6 +43,14 @@ namespace ECommerce
             services.AddScoped(x => ShoppingCart.GetShoppingCart(x));
             services.AddSession();
             services.AddScoped<IOrderServices, OrderServices>();
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<EcommerceDbContext>();
+            services.AddMemoryCache();
+            services.AddAuthentication(options=>
+            {
+               options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            });
+            services.AddAuthorization();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,6 +71,7 @@ namespace ECommerce
 
             app.UseRouting();
             app.UseSession();
+            app.UseAuthentication();
             app.UseAuthorization();
            
             app.UseEndpoints(endpoints =>
@@ -68,7 +80,8 @@ namespace ECommerce
                     name: "default",
                     pattern: "{controller=Products}/{action=Index}/{id?}");
             });
-            AppDbInitializer.seed(app);
+            AppDbInitializer.Seed(app);
+            AppDbInitializer.SeedUserAndRolesAsync(app).Wait();
         }
     }
 }

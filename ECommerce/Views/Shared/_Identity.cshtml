@@ -1,0 +1,34 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject UserManager<ApplicationUser> _userManager;
+
+@if (!User.Identity.IsAuthenticated)
+{
+    <a class="btn btn-outline-success mr-2" asp-action="Login" asp-controller="Account">
+        <i class="fas fa-regular fa-arrow-right-to-bracket"></i> Login
+    </a>
+    <a class="btn btn-outline-secondary mr-2" asp-action="Register" asp-controller="Account">
+        <i class="fas fa-regular fa-arrow-right-to-bracket"></i> Register
+    </a>
+}else{
+ <div class="dropdown">
+       <button class="btn btn-outline-success dropdown-toggle" id="profile-btn" data-toggle="dropdown">
+             <i class="fas fa-person"></i> Hello,@_userManager.GetUserName(User)
+       </button>
+       <div class="dropdown-menu" area-labledby="profile-btn">
+            <a class="dropdown-item" asp-controller="Orders" asp-action="Index">
+                <i class="fas fa- reguler fa-list-check"></i> Orders
+            </a>
+             <a class="dropdown-item" asp-controller="Account" asp-action="Users">
+                <i class="fas fa- reguler fa-list-check"></i> Users
+            </a>
+             <hr />
+             <form asp-controller="Account" asp-action="Logout">
+                   <button class="dropdown-item">
+                          <i class="fas fa-duotone fa-arrow-right-to-bracket"></i>Logout
+                   </button>
+              </form>
+                           
+           </div>
+ </div>
+}

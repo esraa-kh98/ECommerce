@@ -1,6 +1,8 @@
 ﻿using ECommerce.Data;
 using ECommerce.Data.Services;
+using ECommerce.Data.Static;
 using ECommerce.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -8,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Controllers
 {
+    [Authorize(Roles = UserRoles.Admin)]
     public class CategoriesController : Controller
     {
         private readonly ICategoryServices _services;
@@ -15,6 +18,7 @@ namespace ECommerce.Controllers
         {
             _services = services;
         }
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var Response = await _services.GetAllAsync();

@@ -1,6 +1,7 @@
 ﻿using ECommerce.Data.Cart;
 using ECommerce.Data.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ECommerce.Controllers
@@ -19,8 +20,9 @@ namespace ECommerce.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            string userId = " ";
-            var order = await _orderServices.GetOrderByUserIdAsync(userId);
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string roleId = User.FindFirstValue(ClaimTypes.Role);
+            var order = await _orderServices.GetOrderAndRoleByUserIdAsync(userId,roleId);
             return View(order);
         }
         public IActionResult ShoppingCart()
@@ -50,7 +52,7 @@ namespace ECommerce.Controllers
         public async Task<IActionResult> CompleteOrder()
         {
             var items = _shoppingCart.GetShoppingCartItems();
-            string userId = "";
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             await _orderServices.StoreOrderAsync(items, userId);
             _shoppingCart.ClearShoppingCart();
             return View("CompleteOrder");
