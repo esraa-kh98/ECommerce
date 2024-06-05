@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="~/lib/font-awesome/css/all.css" />
    
 
-
+  
 </head>
 <body>
     <header>
@@ -40,7 +40,12 @@
                         </button>
                     </form>
                     <ul class="navbar-nav mr-2">
-                        @await Component.InvokeAsync("ShoppingCartSummary")
+                        @if (Context.User.Identity.IsAuthenticated )
+                        {
+                            @await Component.InvokeAsync("ShoppingCartSummary")
+                        }
+
+
                     </ul>
                     <partial name="_Identity"/>
                 </div>

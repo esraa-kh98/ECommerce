@@ -1,4 +1,5 @@
 ﻿using ECommerce.Data.Base;
+using ECommerce.Data.Enums;
 using System.Collections.Generic;
 
 namespace ECommerce.Models
@@ -15,5 +16,6 @@ namespace ECommerce.Models
         public virtual ApplicationUser User { get; set; }
 
         public ICollection<OrderItem> OrderItems { set; get; }
+        public OrderStatus OrderStatus { set; get; } = OrderStatus.Pending;
     }
 }

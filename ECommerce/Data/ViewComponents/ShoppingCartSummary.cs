@@ -12,6 +12,7 @@ namespace ECommerce.Data.ViewComponents
         }
         public IViewComponentResult Invoke()
         {
+
             var item = _cart.GetShoppingCartTotalAmount();
             ViewBag.Total = _cart.GetShoppingCartTotal();
             return View(item);

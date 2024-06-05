@@ -19,9 +19,12 @@
             <a class="dropdown-item" asp-controller="Orders" asp-action="Index">
                 <i class="fas fa- reguler fa-list-check"></i> Orders
             </a>
+            @if(User.IsInRole("Admin"))
+            {
              <a class="dropdown-item" asp-controller="Account" asp-action="Users">
                 <i class="fas fa- reguler fa-list-check"></i> Users
             </a>
+            }
              <hr />
              <form asp-controller="Account" asp-action="Logout">
                    <button class="dropdown-item">

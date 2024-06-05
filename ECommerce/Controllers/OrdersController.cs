@@ -58,5 +58,11 @@ namespace ECommerce.Controllers
             return View("CompleteOrder");
 
         }
+        public async Task<IActionResult> CancelOrder(int orderId)
+        {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            await _orderServices.CancelOrder(userId, orderId);
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

@@ -7,6 +7,7 @@ namespace ECommerce.Data.Services
     public interface IOrderServices
     {
         Task StoreOrderAsync(List<ShoppingCartItem> items, string userId);
-        Task<List<Order>> GetOrderAndRoleByUserIdAsync(string userId,string role);
+        Task<List<Order>> GetOrderAndRoleByUserIdAsync(string userId, string role);
+        public  Task CancelOrder(string userId, int orderId);
     }
 }
