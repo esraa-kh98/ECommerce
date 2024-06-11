@@ -54,17 +54,36 @@ namespace ECommerce.Controllers
         {
             if(ModelState.IsValid)
             {
-                if (product.ProductPicture != null)
+                if (product.ProductPicture == null || product.ProductPicture.Length == 0)
                 {
-                    var productName =$"{Guid.NewGuid()}- { product.ProductPicture.FileName}";
-                    var src = "/image/" + productName;
-                    var path = Path.Combine(_webHost.WebRootPath, src);
-                    using(var fileStream= new FileStream(path, FileMode.Create))
-                    {
-                        product.ProductPicture.CopyTo(fileStream);
-                    }
-                    product.ImageUrl = src;
+                    throw new ArgumentException("File is invalid");
                 }
+                string uploadFolder = Path.Combine(_webHost.WebRootPath, "image");
+                if (!Directory.Exists(uploadFolder))
+                {
+                    Directory.CreateDirectory(uploadFolder);
+                }
+
+                string uniqueFileName = $"{Guid.NewGuid()} - {product.ProductPicture.FileName}";
+                string filePath = Path.Combine(uploadFolder, uniqueFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    product.ProductPicture.CopyTo(fileStream);
+                }
+                var src = "/image/" + uniqueFileName;
+                product.ImageUrl = src;
+                //if (product.ProductPicture != null)
+                //{
+                //    var productName =$"{Guid.NewGuid()}- { product.ProductPicture.FileName}";
+                //    var src = "/image/" + productName;
+                //    var path = Path.Combine(_webHost.WebRootPath, src);
+                //    using(var fileStream= new FileStream(path, FileMode.Create))
+                //    {
+                //        product.ProductPicture.CopyTo(fileStream);
+                //    }
+                //    product.ImageUrl = src;
+                //}
                 await _services.CreateAsync(product);
                 return RedirectToAction(nameof(Index));
                
@@ -80,13 +99,78 @@ namespace ECommerce.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(Product product)
         {
+
             if (ModelState.IsValid)
             {
-                await _services.UpdateAsync(product);
-                return RedirectToAction(nameof(Index));
+
+                if (product.ProductPicture == null || product.ProductPicture.Length == 0)
+                {
+
+                    await _services.UpdateAsync(product);
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    string uploadFolder = Path.Combine(_webHost.WebRootPath, "image");
+                    if (!Directory.Exists(uploadFolder))
+                    {
+                        Directory.CreateDirectory(uploadFolder);
+                    }
+
+                    string uniqueFileName = $"{Guid.NewGuid()} - {product.ProductPicture.FileName}";
+                    string filePath = Path.Combine(uploadFolder, uniqueFileName);
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        product.ProductPicture.CopyTo(fileStream);
+                    }
+                    var src = "/image/" + uniqueFileName;
+                    product.ImageUrl = src;
+                    await _services.UpdateAsync(product);
+                    return RedirectToAction(nameof(Index));
+                }
             }
-            return View(product);
+            return View("NotFound");
         }
+        //public async Task<IActionResult> Edit(Product product)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        if (product.ProductPicture == null || product.ProductPicture.Length == 0)
+        //        {
+        //            throw new ArgumentException("File is invalid");
+        //        }
+        //        string uploadFolder = Path.Combine(_webHost.WebRootPath, "image");
+        //        if (!Directory.Exists(uploadFolder))
+        //        {
+        //            Directory.CreateDirectory(uploadFolder);
+        //        }
+
+        //        string uniqueFileName = $"{Guid.NewGuid()} - {product.ProductPicture.FileName}";
+        //        string filePath = Path.Combine(uploadFolder, uniqueFileName);
+
+        //        using (var fileStream = new FileStream(filePath, FileMode.Create))
+        //        {
+        //            product.ProductPicture.CopyTo(fileStream);
+        //        }
+        //        var src = "/image/" + uniqueFileName;
+        //        product.ImageUrl = src;
+        //        //if (product.ProductPicture != null)
+        //        //{
+        //        //    var productName = $"{Guid.NewGuid()}- { product.ProductPicture.FileName}";
+        //        //    var src = "/image/" + productName;
+        //        //    var path = Path.Combine(_webHost.WebRootPath, src);
+        //        //    using (var fileStream = new FileStream(path, FileMode.Create))
+        //        //    {
+        //        //        product.ProductPicture.CopyTo(fileStream);
+        //        //    }
+        //        //    product.ImageUrl = src;
+        //        //}
+        //        await _services.UpdateAsync(product);
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(product);
+        //}
         public async Task<IActionResult> Delete(int id)
         {
             await _services.DeleteAsync(id);

@@ -4,7 +4,75 @@
     ViewData["Title"] = "Products";
 }
 
+<link href="@Url.Content("css/site.css")" rel="stylesheet" />
+
+
 <div class="row">
+   @foreach (var item in Model)
+    {
+        <div id="cardBo" class="col-md-3">
+            <div class="card">
+                
+                @if (Context.User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                {
+                    <div class="d-flex flex-row">
+                        <a asp-action="Edit" asp-controller="Products" asp-route-id="@item.Id">
+                        <i class="fas fa-regular fa-pencil ml-3 mt-2 mb-2"></i>
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@item.Id">
+
+                       @* <input type="submit" value="Delete" class="btn btn-outline-danger"
+                        onclick="return confirm('Are You Sure Want To Delete This Product?')" />*@
+                        <i id="trash" class="fas fa-regular fa-trash mr-3 mt-2 mb-2" value="Delete" 
+                        onclick="return confirm('Are You Sure Want To Delete This Product?')"></i>
+                    </a>
+                    
+                    </div>
+                }
+                @* <img src="@Url.Content(@item.ImageURL)" alt="@item.Name" style="width:90%;height:300px;"/>  this way is ok *@
+                <a asp-action="Details" asp-route-id="@item.Id">
+                    <img src="@item.ImageUrl" alt="@item.Name" style="width:90%;height:300px;" /> @*and this is ok if the bath in db not start with ~/*@
+                </a>
+                <h1 class="card-title mt-3">@item.Name</h1>
+                 <div class="card-body">
+                <p>@item.Price.ToString("c")</p>
+                <p>@item.Description</p>
+                </div>
+                <p class="ProCol">
+                <span class="dot" style="background-color: @item.ProductColor;"> </span>
+                    <span class="ProColorDisplay">@item.ProductColor</span>
+                </p>
+                
+                @if (Context.User.Identity.IsAuthenticated)
+                {
+                    <a id="addCart" class="btn btn-info" asp-controller="Orders" asp-action="AddToCart" asp-route-id="@item.Id">
+                        <div class="card-footer"> 
+                            <i class="fas fa-regular fa-shopping-basket mr-2"></i>
+                            Add To Cart
+                        </div>
+                    </a>
+                }else
+                {
+                    <a id="addCart" class="btn btn-info" asp-action="Login" asp-controller="Account">
+                        <div class="card-footer"> 
+                            <i class="fas fa-regular fa-shopping-basket mr-2"></i>
+                            Add To Cart
+                        </div>
+                    </a>
+                
+                }
+               
+            </div>
+        </div>
+    }
+
+</div>
+
+
+@await Html.PartialAsync("_CreateItem", "Products")
+
+
+@*<div class="row">
     @foreach(var item in Model)
     {
         <div class="col-md-3">
@@ -32,5 +100,68 @@
     </div>
     }
 </div>
+*@
 
-@await Html.PartialAsync("_CreateItem","Products")
+
+
+
+<style>
+    .card{
+         border-radius: 20px !important;
+         height: 100%;
+         margin-bottom: 0px !important;
+    }
+    .card:hover {
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    }
+    .col-md-3 {
+        padding-bottom: 20px;
+    }
+    .dot {
+        height: 25px;
+        width: 25px;
+        border-color: black;
+        border: 5px solid;
+        border-width: thin;
+        margin-right: 20px;
+        margin-top: 10px;
+        border-radius: 50%;
+        display: inline-block;
+    }
+    .card-body{
+        padding: 0.25rem !important;
+    }
+    .ProColorDisplay {
+        height: 23px;
+       /*  display: grid;
+        width: 30px;
+        flex-basis: min-content;*/
+    }
+    .ProCol {
+    display: flex;
+    flex-direction: row;
+    align-items: self-end;
+    justify-content: center;
+}
+
+    .d-flex {
+        display: flex !important;
+        justify-content: space-between;
+        background-color: whitesmoke;
+        border-top-left-radius: 18px;
+        border-top-right-radius: 18px;
+    }
+    #trash {
+    color: #e70016;
+    }
+    #addCart{
+        background-color: #0e67a9;
+        border-color: #b8c2e9;
+        border: hidden;
+    }
+    .card-footer {
+    padding: 4px;
+    border: hidden;
+     display: contents;
+}
+</style>

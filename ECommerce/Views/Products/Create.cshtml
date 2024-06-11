@@ -34,11 +34,11 @@
                <label class="controle-lable">Upload Image Picture</label>
                <input type="file" name="ProductPicture" asp-for="ProductPicture" class="form-control" accept=".jpg;.png" required/>
            </div>
-           <div class="form-group">
+           @*<div class="form-group">
                <label asp-for="ImageUrl" class="controle-lable"></label>
                <input asp-for="ImageUrl" class="form-control" autocomplete="off"/>
                <span asp-validation-for="ImageUrl" class="text-danger"></span>
-           </div>
+           </div>*@
             <div class="form-group">
                <label asp-for="ProductColor" class="controle-lable"></label>
                <select asp-for="ProductColor" asp-items="@Html.GetEnumSelectList<ProductColor>()" class="form-control" ></select>
@@ -49,11 +49,11 @@
                <select asp-for="CategoryId" asp-items="@Category" class="form-control" ></select>
                <span asp-validation-for="CategoryId" class="text-danger"></span>
            </div>
-           <div class="col-md-4 offset-4 text-center">
+           @*<div class="col-md-4 offset-4 text-center">
                <img style="width:100%" id="imagePreview" />
-           </div>
+           </div>*@
            <div class="form-group " style="padding-top:10px">
-               <input type="submit" value="Create" class="btn btn-outline-success  float-right" />
+               <input type="submit" value="Create" class="btn btn-outline-info  float-right" />
                <a asp-action="Index" class="btn btn-outline-secondary">Show All Category</a>
            </div>
         </form>

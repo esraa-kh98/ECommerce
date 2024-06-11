@@ -4,6 +4,7 @@ using ECommerce.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ECommerce.Migrations
 {
     [DbContext(typeof(EcommerceDbContext))]
-    partial class EcommerceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240609110507_ShoppingCartItem")]
+    partial class ShoppingCartItem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -208,7 +210,7 @@ namespace ECommerce.Migrations
                     b.Property<int>("Amount")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProductId")
+                    b.Property<int?>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
@@ -401,10 +403,8 @@ namespace ECommerce.Migrations
             modelBuilder.Entity("ECommerce.Models.ShoppingCartItem", b =>
                 {
                     b.HasOne("ECommerce.Models.Product", "Product")
-                        .WithMany("ShoppingCartItem")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("ProductId");
 
                     b.HasOne("ECommerce.Models.ApplicationUser", "User")
                         .WithMany()
@@ -474,11 +474,6 @@ namespace ECommerce.Migrations
             modelBuilder.Entity("ECommerce.Models.Order", b =>
                 {
                     b.Navigation("OrderItems");
-                });
-
-            modelBuilder.Entity("ECommerce.Models.Product", b =>
-                {
-                    b.Navigation("ShoppingCartItem");
                 });
 #pragma warning restore 612, 618
         }

@@ -7,16 +7,61 @@
 <div class="row">
     <div class="col-md-8 offset-2">
          <div class="card">
-             <img src="/@Model.ImageUrl" alt="@Model.Name" style="width:90%;height:300px">
+             <img class="imgCat" src="@Model.ImageUrl" alt="@Model.Name" style="height:300px">
              <h1>@Model.Name</h1>
              <p>@Model.Price.ToString("c")</p>
              <p>@Model.Description</p>
-             <p style="color:@Model.ProductColor">@Model.ProductColor</p>
+            @* <p style="color:@Model.ProductColor">@Model.ProductColor</p>*@
+            <p class="ProCol">
+            <span class="dot" style="background-color: @Model.ProductColor;"> </span>
+                    <span class="ProColorDisplay">@Model.ProductColor</span>
+            </p>
              <p>@Model.Category.Name</p>
-             <a class="btn btn-success"  asp-action="AddToCart" asp-controller="Orders" asp-route-id="@Model.Id">
+             <a id="addCart" class="btn btn-info"  asp-action="AddToCart" asp-controller="Orders" asp-route-id="@Model.Id">
                  <i class="fas fa-regular fa-shopping-basket mr-2"></i>
                  Add To Cart</a>
         </div>
     </div>
 
 </div>
+
+<style>
+    .card{
+         border-radius: 10px !important;
+    }
+    .dot {
+        height: 25px;
+        width: 25px;
+        border-color: black;
+        border: 5px solid;
+        border-width: thin;
+        margin-right: 20px;
+        margin-top: 10px;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+    .ProColorDisplay {
+       height: 23px;
+       /*  display: inline;
+        width: 40px;
+        flex-basis: min-content;*/
+    }
+     .ProCol {
+    display: flex;
+    flex-direction: row;
+    align-items: self-end;
+    justify-content: center;
+    }
+    #addCart{
+        background-color: #0e67a9;
+        border-color: #b8c2e9;
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
+    }
+    .imgCat{
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+       
+    }
+</style>
